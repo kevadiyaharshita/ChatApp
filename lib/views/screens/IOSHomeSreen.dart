@@ -5,6 +5,7 @@ import 'package:platform_convertor_application_project/components/IosChatPage.da
 import 'package:platform_convertor_application_project/components/iosAddPersonPage.dart';
 import 'package:platform_convertor_application_project/components/iosSettingPage.dart';
 import 'package:platform_convertor_application_project/controller/platformConverter.dart';
+import 'package:platform_convertor_application_project/utils/ColorUtils.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/themeController.dart';
@@ -23,10 +24,15 @@ class IosHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text("HomePage"),
+        middle: Text(
+          "Chat App",
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
         trailing: Consumer<PlatformController>(
           builder: (context, pro, _) {
             return CupertinoSwitch(
+              thumbColor: CupertinoColors.white,
+              activeColor: theme_Color1,
               onChanged: (val) {
                 pro.changePlatform();
               },
@@ -37,7 +43,9 @@ class IosHomePage extends StatelessWidget {
       ),
       child: CupertinoTabScaffold(
         tabBuilder: (Context, index) => Padding(
-          padding: EdgeInsets.symmetric(vertical: 80, horizontal: 16),
+          padding: EdgeInsets.symmetric(
+              vertical: (index == 0) ? 80 : 10,
+              horizontal: (index == 0) ? 16 : 5),
           child: pages[index],
         ),
         tabBar: CupertinoTabBar(

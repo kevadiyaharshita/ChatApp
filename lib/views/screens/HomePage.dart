@@ -17,13 +17,30 @@ class HomePage extends StatelessWidget {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("HomePage"),
+          title: Text(
+            "Chat App",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           bottom: TabBar(
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.grey,
             tabs: [
-              Icon(Icons.person_add_alt_outlined),
-              Text("CHATS"),
-              Text("CALLS"),
-              Text("SETTINGS"),
+              Icon(
+                Icons.person_add_alt_outlined,
+                size: 28,
+              ),
+              Text(
+                "CHATS",
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                "CALLS",
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                "SETTING",
+                style: TextStyle(fontSize: 16),
+              ),
             ],
           ),
           actions: [

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:platform_convertor_application_project/controller/ContactController.dart';
 import 'package:platform_convertor_application_project/controller/themeController.dart';
+import 'package:platform_convertor_application_project/utils/ColorUtils.dart';
 import 'package:provider/provider.dart';
 import '../controller/DateTimeController.dart';
 import '../modals/ContactModal.dart';
@@ -22,6 +23,9 @@ class AddPersonPage extends StatelessWidget {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    Size s = MediaQuery.of(context).size;
+    double h = s.height;
+    double w = s.width;
     return Padding(
       padding: EdgeInsets.all(18),
       child: SingleChildScrollView(
@@ -29,8 +33,8 @@ class AddPersonPage extends StatelessWidget {
           children: [
             Consumer<ContactController>(builder: (context, p, _) {
               return Container(
-                width: 150,
-                height: 150,
+                width: 130,
+                height: 130,
                 decoration: BoxDecoration(
                   image: (p.imagePath != "")
                       ? DecorationImage(
@@ -39,29 +43,23 @@ class AddPersonPage extends StatelessWidget {
                         )
                       : null,
                   shape: BoxShape.circle,
-                  color: Color(0xff9397A3),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 5,
-                      offset: Offset(2, 2),
-                    )
-                  ],
+                  // color: Color(0xff9397A3),
+                  color: theme_Color1.withOpacity(0.3),
                 ),
                 child: (p.imagePath == "")
                     ? Icon(
                         CupertinoIcons.person_solid,
                         color: Colors.white,
-                        size: 120,
+                        size: 100,
                       )
                     : null,
               );
             }),
-            SizedBox(
-              height: 10,
-            ),
             Consumer<ContactController>(builder: (context, p, _) {
-              return TextButton(
+              return TextButton.icon(
+                style: TextButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
                 onPressed: () async {
                   ImagePicker picker = ImagePicker();
                   XFile? file;
@@ -74,7 +72,7 @@ class AddPersonPage extends StatelessWidget {
 
                       content: Text("Choose the sourse for your image"),
                       actions: [
-                        ElevatedButton(
+                        ElevatedButton.icon(
                           onPressed: () async {
                             file = await picker.pickImage(
                                 source: ImageSource.camera);
@@ -86,11 +84,22 @@ class AddPersonPage extends StatelessWidget {
                             }
                             Navigator.of(context).pop();
                           },
-                          child: Text(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              backgroundColor: Colors.white),
+                          label: Text(
                             "Camera",
                           ),
+                          icon: Icon(Icons.camera_alt),
                         ),
-                        ElevatedButton(
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              backgroundColor: Colors.white),
                           onPressed: () async {
                             file = await picker.pickImage(
                                 source: ImageSource.gallery);
@@ -103,26 +112,30 @@ class AddPersonPage extends StatelessWidget {
 
                             Navigator.of(context).pop();
                           },
-                          child: Text("Gallary"),
+                          label: Text("Gallary"),
+                          icon: Icon(Icons.image),
                         ),
                       ],
                     ),
                   );
                 },
-                child: Text(
+                icon: Icon(Icons.add_a_photo_outlined),
+                label: Text(
                   "Add Photo",
-                  style: TextStyle(color: Colors.blueAccent, fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
                 ),
               );
             }),
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Form(
               key: formkey,
               child: Column(
                 children: [
-                  Consumer<themeController>(builder: (context, pro, _) {
+                  Consumer<ThemeController>(builder: (context, pro, _) {
                     return TextFormField(
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
@@ -168,9 +181,9 @@ class AddPersonPage extends StatelessWidget {
                     );
                   }),
                   SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
-                  Consumer<themeController>(builder: (context, pro, _) {
+                  Consumer<ThemeController>(builder: (context, pro, _) {
                     return TextFormField(
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.next,
@@ -216,9 +229,9 @@ class AddPersonPage extends StatelessWidget {
                     );
                   }),
                   SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
-                  Consumer<themeController>(builder: (context, pro, _) {
+                  Consumer<ThemeController>(builder: (context, pro, _) {
                     return TextFormField(
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.next,
@@ -264,12 +277,13 @@ class AddPersonPage extends StatelessWidget {
                     );
                   }),
                   SizedBox(
-                    height: 16,
+                    height: 10,
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        onPressed: () async {
+                      GestureDetector(
+                        onTap: () async {
                           DateTime? d = await showDatePicker(
                             context: context,
                             initialDatePickerMode: DatePickerMode.day,
@@ -278,7 +292,7 @@ class AddPersonPage extends StatelessWidget {
                                         listen: false)
                                     .d ??
                                 DateTime.now(),
-                            firstDate: DateTime.now(),
+                            firstDate: DateTime(1949),
                             lastDate: DateTime.now().add(
                               Duration(days: 100),
                             ),
@@ -290,27 +304,67 @@ class AddPersonPage extends StatelessWidget {
                                 .dateChanged(dateTime: d);
                           }
                         },
-                        icon: Icon(Icons.date_range),
+                        child: Container(
+                          height: 60,
+                          width: w / 2 - 23,
+                          decoration: BoxDecoration(
+                              // color: Colors.red,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                  color: Provider.of<ThemeController>(context)
+                                          .getTheme
+                                      ? Colors.grey.shade400
+                                      : Colors.black54)),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.calendar_month_sharp,
+                                  size: 25,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 0,
+                              ),
+                              Consumer<DateTimeController>(
+                                builder: (context, p, _) {
+                                  return (p.d == null)
+                                      ? Text(
+                                          "Pick Date",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Provider.of<ThemeController>(
+                                                        context,
+                                                        listen: false)
+                                                    .getTheme
+                                                ? Colors.white
+                                                : Colors.black54,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${p.d!.day}/${p.d!.month}/${p.d!.year}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Provider.of<ThemeController>(
+                                                        context,
+                                                        listen: false)
+                                                    .getTheme
+                                                ? Colors.white
+                                                : Colors.black54,
+                                          ),
+                                        );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       SizedBox(
-                        width: 10,
+                        height: 10,
                       ),
-                      Consumer<DateTimeController>(
-                        builder: (context, p, _) {
-                          return (p.d == null)
-                              ? Text("Pick Date")
-                              : Text("${p.d!.day}/${p.d!.month}/${p.d!.year}");
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () async {
+                      GestureDetector(
+                        onTap: () async {
                           TimeOfDay? t = await showTimePicker(
                             context: context,
                             initialTime: Provider.of<DateTimeController>(
@@ -325,79 +379,134 @@ class AddPersonPage extends StatelessWidget {
                                 .timeChanged(time: t);
                           }
                         },
-                        icon: Icon(Icons.access_time),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Consumer<DateTimeController>(
-                        builder: (context, p, _) {
-                          return (p.t == null)
-                              ? Text("Pick Time")
-                              : Text(
-                                  "${p.t!.hour == 0 ? '12' : p.t!.hour % 12}:${p.t!.minute} ${p.t!.hour >= 12 ? 'PM' : 'AM'}");
-                        },
+                        child: Container(
+                          height: 60,
+                          width: w / 2 - 23,
+                          decoration: BoxDecoration(
+                            // color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                                color: Provider.of<ThemeController>(context)
+                                        .getTheme
+                                    ? Colors.grey.shade400
+                                    : Colors.black54),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Icon(
+                                  Icons.access_time,
+                                  size: 25,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 0,
+                              ),
+                              Consumer<DateTimeController>(
+                                builder: (context, p, _) {
+                                  return (p.t == null)
+                                      ? Text(
+                                          "Pick Time",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Provider.of<ThemeController>(
+                                                        context,
+                                                        listen: false)
+                                                    .getTheme
+                                                ? Colors.white
+                                                : Colors.black54,
+                                          ),
+                                        )
+                                      : Text(
+                                          "${p.t!.hour == 0 ? '12' : p.t!.hour % 12}:${p.t!.minute} ${p.t!.hour >= 12 ? 'PM' : 'AM'}",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Provider.of<ThemeController>(
+                                                        context,
+                                                        listen: false)
+                                                    .getTheme
+                                                ? Colors.white
+                                                : Colors.black54,
+                                          ),
+                                        );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
                   Consumer<DateTimeController>(
                     builder: (context, p, _) {
-                      return OutlinedButton(
-                          onPressed: () {
-                            bool validate = formkey.currentState!.validate();
-                            if (validate) {
-                              formkey.currentState!.save();
-                              ContactModal c = ContactModal(
-                                name: nameController.text,
-                                phone: phoneController.text,
-                                time:
-                                    "${p.t!.hour == 0 ? '12' : p.t!.hour % 12}:${p.t!.minute} ${p.t!.hour >= 12 ? 'PM' : 'AM'}",
-                                date: "${p.d!.day}/${p.d!.month}/${p.d!.year}",
-                                chat: chatController.text,
-                                image: Provider.of<ContactController>(context,
-                                        listen: false)
-                                    .imagePath,
-                              );
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          fixedSize: Size(150, 30),
+                          backgroundColor: theme_Color1,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          bool validate = formkey.currentState!.validate();
+                          if (validate) {
+                            formkey.currentState!.save();
+                            ContactModal c = ContactModal(
+                              name: nameController.text,
+                              phone: phoneController.text,
+                              time:
+                                  "${p.t!.hour == 0 ? '12' : p.t!.hour % 12}:${p.t!.minute} ${p.t!.hour >= 12 ? 'PM' : 'AM'}",
+                              date: "${p.d!.day}/${p.d!.month}/${p.d!.year}",
+                              chat: chatController.text,
+                              image: Provider.of<ContactController>(context,
+                                      listen: false)
+                                  .imagePath,
+                            );
 
-                              bool check = Provider.of<ContactController>(
-                                      context,
-                                      listen: false)
-                                  .addContact(contact: c);
+                            bool check = Provider.of<ContactController>(context,
+                                    listen: false)
+                                .addContact(contact: c);
 
-                              formkey.currentState!.reset();
-                              Provider.of<ContactController>(context,
-                                      listen: false)
-                                  .clearLocalData();
-                              Provider.of<DateTimeController>(context,
-                                      listen: false)
-                                  .clearDateTime();
-                              ContactModal cm = Provider.of<ContactController>(
-                                      context,
-                                      listen: false)
-                                  .allContactlist[0];
-                              print(
-                                  "Contact list ${cm.name},${cm.phone},${cm.date},${cm.time}");
+                            formkey.currentState!.reset();
+                            Provider.of<ContactController>(context,
+                                    listen: false)
+                                .clearLocalData();
+                            Provider.of<DateTimeController>(context,
+                                    listen: false)
+                                .clearDateTime();
+                            ContactModal cm = Provider.of<ContactController>(
+                                    context,
+                                    listen: false)
+                                .allContactlist[0];
+                            print(
+                                "Contact list ${cm.name},${cm.phone},${cm.date},${cm.time}");
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: (check)
-                                      ? Text("Contect Added Succesfully..")
-                                      : Text("Failed To Saved..!!"),
-                                  behavior: SnackBarBehavior.floating,
-                                  duration: Duration(seconds: 2),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  margin: EdgeInsets.all(10),
-                                  dismissDirection: DismissDirection.horizontal,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: (check)
+                                    ? Text("Contect Added Succesfully..")
+                                    : Text("Failed To Saved..!!"),
+                                behavior: SnackBarBehavior.floating,
+                                duration: Duration(seconds: 2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
-                              );
-                            }
-                          },
-                          child: Text("Save"));
+                                margin: EdgeInsets.all(10),
+                                dismissDirection: DismissDirection.horizontal,
+                              ),
+                            );
+                          }
+                        },
+                        child: Text(
+                          "Save",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
                     },
                   )
                 ],

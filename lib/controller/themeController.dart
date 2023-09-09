@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class themeController extends ChangeNotifier {
+class ThemeController extends ChangeNotifier {
   bool _isDarkTheme = false;
   late SharedPreferences preferences;
 
-  themeController({required this.preferences});
+  ThemeController({required this.preferences});
 
   get getTheme {
     _isDarkTheme = preferences.getBool('theme') ?? false;
