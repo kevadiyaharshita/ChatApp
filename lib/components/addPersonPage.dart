@@ -500,6 +500,7 @@ class AddPersonPage extends StatelessWidget {
                                 dismissDirection: DismissDirection.horizontal,
                               ),
                             );
+                            FocusManager.instance.primaryFocus!.unfocus();
                           }
                         },
                         child: Text(

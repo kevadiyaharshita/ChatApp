@@ -448,6 +448,7 @@ class IosAddPersonPage extends StatelessWidget {
                             .allContactlist[0];
                         print(
                             "Contact list ${cm.name},${cm.phone},${cm.date},${cm.time}");
+                        FocusManager.instance.primaryFocus!.unfocus();
                       }
                     },
                   ),

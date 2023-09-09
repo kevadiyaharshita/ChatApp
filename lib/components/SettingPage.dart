@@ -247,10 +247,12 @@ class SettingPage extends StatelessWidget {
                                         profileImage: pro.imagePath,
                                         profileBio: bioController.text);
                                     pro.setProfile(pm: pm);
+                                    FocusManager.instance.primaryFocus!
+                                        .unfocus();
                                   },
-                                  icon: Icon(Icons.edit),
+                                  icon: Icon(Icons.save_alt),
                                   label: Text(
-                                    "Edit",
+                                    "Save",
                                     style: TextStyle(fontSize: 18),
                                   ),
                                 );
@@ -271,6 +273,8 @@ class SettingPage extends StatelessWidget {
                                     profileImage: "",
                                     profileBio: "");
                                 pro.setProfile(pm: pm);
+                                pro.clearLocalData();
+                                FocusManager.instance.primaryFocus!.unfocus();
                               },
                               icon: Icon(Icons.refresh),
                               label: const Text(
