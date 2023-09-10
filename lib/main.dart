@@ -7,11 +7,13 @@ import 'package:platform_convertor_application_project/utils/ColorUtils.dart';
 import 'package:platform_convertor_application_project/utils/MyRoutes.dart';
 import 'package:platform_convertor_application_project/views/screens/HomePage.dart';
 import 'package:platform_convertor_application_project/views/screens/IOSHomeSreen.dart';
+import 'package:platform_convertor_application_project/views/screens/SplashScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'controller/DateTimeController.dart';
 import 'controller/ModalBottomSheetController.dart';
+import 'controller/SplashScreenController.dart';
 import 'controller/platformConverter.dart';
 import 'controller/themeController.dart';
 
@@ -40,6 +42,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (context) => ProfileController(preferences: preferences),
         ),
+        ChangeNotifierProvider(
+          create: (context) => SplashScreenController(),
+        ),
       ],
       child: MyApp(),
     ),
@@ -60,9 +65,13 @@ class MyApp extends StatelessWidget {
                   ? Brightness.dark
                   : Brightness.light,
             ),
-            initialRoute: IOSMyRoutes.home,
+            initialRoute:
+                (Provider.of<SplashScreenController>(context).getSplash)
+                    ? IOSMyRoutes.SplashScreen
+                    : IOSMyRoutes.home,
             routes: {
               IOSMyRoutes.home: (context) => IosHomePage(),
+              IOSMyRoutes.SplashScreen: (context) => SplashScreen(),
             },
           )
         : MaterialApp(
@@ -88,9 +97,13 @@ class MyApp extends StatelessWidget {
             themeMode: Provider.of<ThemeController>(context).getTheme
                 ? ThemeMode.dark
                 : ThemeMode.light,
-            initialRoute: MyRoutes.home,
+            initialRoute:
+                (Provider.of<SplashScreenController>(context).getSplash)
+                    ? MyRoutes.SplashScreen
+                    : MyRoutes.home,
             routes: {
               MyRoutes.home: (context) => HomePage(),
+              MyRoutes.SplashScreen: (context) => SplashScreen(),
             },
           );
   }

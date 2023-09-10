@@ -40,7 +40,7 @@ class IosChatPage extends StatelessWidget {
                           (cm.image != "") ? FileImage(File(cm.image)) : null,
                       child: (cm.image == "")
                           ? Text(
-                              "${cm.name[0].toUpperCase()}",
+                              "${cm.name[1].toUpperCase()}",
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
