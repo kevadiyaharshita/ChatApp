@@ -1,5 +1,8 @@
 # ChatApp
 
+
+<img src="https://github.com/kevadiyaharshita/ChatApp/assets/133105068/e75e7efb-6b3c-48b6-8ba6-5b51a085d944" width="300px">
+<img src="https://github.com/kevadiyaharshita/ChatApp/assets/133105068/06cf1ce7-d024-4c4f-adf3-62f5596936d6" width="300px">
 <img src="https://github.com/kevadiyaharshita/ChatApp/assets/133105068/e374a07b-4b0b-4a74-86d9-a2d481254c5a" width="300px">
 <img src="https://github.com/kevadiyaharshita/ChatApp/assets/133105068/85db8a95-a6cd-4cc0-907e-b7ef9551b2e4" width="300px">
 <img src="https://github.com/kevadiyaharshita/ChatApp/assets/133105068/ce3f42a3-b52e-44fc-970f-a7e0cd15b7a7" width="300px">
